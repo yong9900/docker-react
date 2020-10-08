@@ -1,11 +1,9 @@
-FROM node:alpine as builds
-
+FROM node:alpine
 WORKDIR "/app"
 COPY package.json .
-RUN npm install
+RUN yarn install
 COPY . .
-RUN npm run build
+RUN yarn build
 
 FROM nginx
-COPY --from=builds /app/build /usr/share/nginx/html
-
+COPY --from=0 /app/build /usr/share/nginx/html
